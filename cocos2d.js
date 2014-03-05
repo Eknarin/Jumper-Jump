@@ -9,11 +9,12 @@
         frameRate: 60,
         renderMode: 1,       //Choose of RenderMode: 0(default), 1(Canvas only), 2(WebGL only)
         tag: 'gameCanvas', //the dom element to run cocos2d on
-        engineDir: '../../cocos2d/',
-        //SingleEngineFile:'',
+        //engineDir: '../../cocos2d/',
+        SingleEngineFile:'lib/Cocos2d-html5-v2.2.2.min.js',
         appFiles:[
             'src/resource.js',
-            'src/GameLayer.js', //add your own files in order here
+            'src/GameLayer.js',
+            'src/Jumper.js', //add your own files in order here
         ]
     };
 
