@@ -5,7 +5,7 @@ var GameLayer = cc.LayerColor.extend({
 
         this.jumper = new Jumper();  
         this.jumper.setPosition( new cc.Point( 130, 2 * Math.floor(( screenHeight / 3 )) ));
-        this.addChild( this.jumper , 1);
+        this.addChild( this.jumper , 1); 
         this.jumper.scheduleUpdate();
 
         this.stand_array = [ new Stand(), new Stand(), new Stand()];
@@ -17,15 +17,26 @@ var GameLayer = cc.LayerColor.extend({
 
     create_map: function(){
         for(var i=0; i<3; i++){
-            this.stand_array[i].randomPositionX();
+
+            if(i == 0){
+                this.stand_array[i].setPositionX(130);
+            }
+            else{
+                this.stand_array[i].randomPositionX();
+            }
+            
             this.addChild( this.stand_array[i], 0);
-            this.stand_array[i].setPositionY(i * Math.floor( (screenHeight / 3) ));
+            this.stand_array[i].setPositionY( -1 *i * Math.floor( (screenHeight / 3) ));
             this.stand_array[i].scheduleUpdate();
         }
     },
 
     update: function(){
-        this.jumper.is_on_stand(this.stand_array[0]);
+        for(var i=0; i<3; i++){
+            this.jumper.is_on_stand(this.stand_array[i]);
+            console.log( )
+
+        }
     }
 });
 
