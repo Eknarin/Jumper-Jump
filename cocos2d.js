@@ -14,7 +14,8 @@
         appFiles:[
             'src/resource.js',
             'src/GameLayer.js',
-            'src/Jumper.js', //add your own files in order here
+            'src/Jumper.js', 
+            'src/Stand.js',//add your own files in order here
         ]
     };
 
