@@ -24,19 +24,31 @@ var GameLayer = cc.LayerColor.extend({
             else{
                 this.stand_array[i].randomPositionX();
             }
-            
+
             this.addChild( this.stand_array[i], 0);
             this.stand_array[i].setPositionY( -1 *i * Math.floor( (screenHeight / 3) ));
             this.stand_array[i].scheduleUpdate();
         }
     },
 
-    update: function(){
-        for(var i=0; i<3; i++){
-            this.jumper.is_on_stand(this.stand_array[i]);
-            console.log( )
+    onKeyDown: function( e ) {
+        // if ( this.state == GameLayer.STATES.FRONT ) {
+        //     this.startGame();
+        //     this.state = GameLayer.STATES.STARTED;
+        // }
+        // else if ( this.state == GameLayer.STATES.STARTED ) {
+            this.jumper.jump();
+        // }
+    },
 
-        }
+    update: function(){
+        // for(var i=0; i<3; i++){
+        //     this.jumper.is_on_stand(this.stand_array[i]);
+        //     this.jumper.scheduleUpdate();
+        // }
+        this.jumper.is_on_stand(this.stand_array[0]);
+        console.log(this.jumper.status);
+        this.jumper.scheduleUpdate();
     }
 });
 
