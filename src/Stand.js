@@ -8,7 +8,7 @@ var Stand = cc.Sprite.extend({
     },
 
     update: function(){
-    	this.setPositionY( this.getPositionY() + 2);
+    	this.setPositionY( this.getPositionY() + 1);
     	if(this.getPositionY() >= screenHeight){
         	this.randomPositionX();
         }

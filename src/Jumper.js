@@ -8,14 +8,19 @@ var Jumper = cc.Sprite.extend({
     },
 
     jump: function() {
-    	this.vy = Jumper.JUMPING_VELOCITY;
-    	this.vx = Jumper.JUMPING_VELOCITY;
+
+        this.vy += Jumper.JUMPING_VELOCITY;
+        this.status = Jumper.STATUS.STILL;
+
+    	// this.vx = Jumper.JUMPING_VELOCITY;
     },
     is_on_stand: function( stand ) {
-    	// if(stand.getPositionY() == this.getPositionY()-60 && (Math.abs(stand.getPositionX() - this.getPositionX()) <= 50 ) )
         if((Math.abs(stand.getPositionY() - this.getPositionY()) <= 60 ) && (Math.abs(stand.getPositionX() - this.getPositionX()) <= 50 )){	 
             this.status = Jumper.STATUS.STAND_ON_CLOUD;
     	}
+        // else{
+        //     this.status = Jumper.STATUS.STILL;
+        // }
     },
     update: function() {
     	this.update_MovementY();
@@ -33,16 +38,18 @@ var Jumper = cc.Sprite.extend({
     update_MovementY: function(){
 
     	if ( this.getPositionY >= screenHeight ){
-    		//Game End
+    		this.status = Jumper.STATUS.DEAD;
+            //Game End
     	}
 
 
     	if(this.status == Jumper.STATUS.STAND_ON_CLOUD){
     		
-            this.setPositionY( this.getPositionY()+2);
+            this.setPositionY( this.getPositionY()+1);
     		this.vy = 0;
     	}
     	else{
+
     		this.vy += this.g;
             this.setPositionY( this.getPositionY() + this.vy ) ;
     	}
@@ -52,10 +59,11 @@ var Jumper = cc.Sprite.extend({
 });
 
 Jumper.G = -10;
-Jumper.JUMPING_VELOCITY = 15;
+Jumper.JUMPING_VELOCITY = 10;
 
 Jumper.STATUS = {
 	STILL : 0,
-    STAND_ON_CLOUD : 1
+    STAND_ON_CLOUD : 1,
+    DEAD : 2
 	
 };

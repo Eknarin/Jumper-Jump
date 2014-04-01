@@ -4,13 +4,14 @@ var GameLayer = cc.LayerColor.extend({
         this.setPosition( new cc.Point( 0, 0 ) );
 
         this.jumper = new Jumper();  
-        this.jumper.setPosition( new cc.Point( 130, 2 * Math.floor(( screenHeight / 3 )) ));
+        this.jumper.setPosition( new cc.Point( 390, 2 * Math.floor(( screenHeight / 3 )) ));
         this.addChild( this.jumper , 1); 
         this.jumper.scheduleUpdate();
 
         this.stand_array = [ new Stand(), new Stand(), new Stand()];
         this.create_map();
 
+        this.setKeyboardEnabled( true );
         this.scheduleUpdate();
         return true;
     },
@@ -19,7 +20,7 @@ var GameLayer = cc.LayerColor.extend({
         for(var i=0; i<3; i++){
 
             if(i == 0){
-                this.stand_array[i].setPositionX(130);
+                this.stand_array[i].setPositionX(390);
             }
             else{
                 this.stand_array[i].randomPositionX();
@@ -42,13 +43,10 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     update: function(){
-        // for(var i=0; i<3; i++){
-        //     this.jumper.is_on_stand(this.stand_array[i]);
-        //     this.jumper.scheduleUpdate();
-        // }
-        this.jumper.is_on_stand(this.stand_array[0]);
-        console.log(this.jumper.status);
-        this.jumper.scheduleUpdate();
+        for(var i=0; i<3; i++){
+            this.jumper.is_on_stand(this.stand_array[i]);
+            this.jumper.scheduleUpdate();
+        }
     }
 });
 
