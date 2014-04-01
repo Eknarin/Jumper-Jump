@@ -33,12 +33,26 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     onKeyDown: function( e ) {
+
+        switch ( e ){
+            case cc.KEY.up :
+                    this.jumper.jump();
+                    break;
+            case cc.KEY.left :
+                    this.jumper.move_left();
+                    break;
+            case cc.KEY.right :
+                    this.jumper.move_right();
+                    break;        
+
+        }
+
         // if ( this.state == GameLayer.STATES.FRONT ) {
         //     this.startGame();
         //     this.state = GameLayer.STATES.STARTED;
         // }
         // else if ( this.state == GameLayer.STATES.STARTED ) {
-            this.jumper.jump();
+            // this.jumper.jump();
         // }
     },
 

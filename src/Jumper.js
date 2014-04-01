@@ -4,18 +4,42 @@ var Jumper = cc.Sprite.extend({
         this.initWithFile( 'images/b-duck.png' );
         this.status = Jumper.STATUS.STILL;
         this.vy = 2;
+        this.vx = 0;
         this.g = -0.5;
     },
 
     jump: function() {
 
-        this.vy += Jumper.JUMPING_VELOCITY;
+        this.vy = Jumper.JUMPING_VELOCITY;
         this.status = Jumper.STATUS.STILL;
 
-    	// this.vx = Jumper.JUMPING_VELOCITY;
     },
+
+    move_left: function(){
+
+        this.vx = -3;
+        
+        // for(var i = 1; i <= 260 ; i++){
+        //     this.setPositionX(this.getPositionX() - 1);
+        // }
+
+    },
+
+    move_right: function(){
+
+        this.vx = 3;
+
+        //  for(var i = 1; i <= 260 ; i++){
+        //     this.setPositionX(this.getPositionX() + 1);
+        // }
+
+    },
+
     is_on_stand: function( stand ) {
-        if((Math.abs(stand.getPositionY() - this.getPositionY()) <= 60 ) && (Math.abs(stand.getPositionX() - this.getPositionX()) <= 50 )){	 
+        if((( this.getPositionY() - stand.getPositionY() ) <= 60) && 
+            (( this.getPositionY() - stand.getPositionY() ) >= 30) && 
+            (Math.abs(stand.getPositionX() - this.getPositionX()) <= 30 )){	 
+            
             this.status = Jumper.STATUS.STAND_ON_CLOUD;
     	}
         // else{
@@ -24,6 +48,7 @@ var Jumper = cc.Sprite.extend({
     },
     update: function() {
     	this.update_MovementY();
+        this.update_MovementX();
     	this.updatePosition();
 
     	// console.log(this.status);
@@ -33,6 +58,14 @@ var Jumper = cc.Sprite.extend({
     updatePosition: function(){
     	 this.setPosition( cc.p( Math.round( this.getPositionX() ),
                                 Math.round( this.getPositionY() ) ) );
+    },
+
+    update_MovementX: function(){
+        if(this.status == Jumper.STATUS.STILL){
+
+            this.setPositionX( this.getPositionX() + this.vx ) ;
+        }
+
     },
 
     update_MovementY: function(){
@@ -47,11 +80,14 @@ var Jumper = cc.Sprite.extend({
     		
             this.setPositionY( this.getPositionY()+1);
     		this.vy = 0;
+            this.vx = 0;
     	}
+
     	else{
 
     		this.vy += this.g;
             this.setPositionY( this.getPositionY() + this.vy ) ;
+
     	}
 
     },
@@ -64,6 +100,7 @@ Jumper.JUMPING_VELOCITY = 10;
 Jumper.STATUS = {
 	STILL : 0,
     STAND_ON_CLOUD : 1,
-    DEAD : 2
+    JUMPING : 2,
+    DEAD : 3
 	
 };
