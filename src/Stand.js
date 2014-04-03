@@ -1,7 +1,7 @@
 var Stand = cc.Sprite.extend({
     ctor: function() {
         this._super();
-        this.initWithFile( 'images/blue_cloud.png' );
+        this.initWithFile( 'images/cloud.png' );
 
 
         this.way_to_go = [130, 390, 650];
@@ -30,6 +30,6 @@ var Stand = cc.Sprite.extend({
 
 var STAND_COLOR = [
     [ 200 , 255 ,100 ],
-    [ 200 , 100 , 255 ],
-    [ 0 , 0 , 0 ]
+    [ 0 , 191 , 255 ],
+    [ 255, 20, 147]
 ]
