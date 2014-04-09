@@ -42,17 +42,17 @@ var GameLayer = cc.LayerColor.extend({
     onKeyDown: function( e ) {
 
         switch ( e ){
-            case cc.KEY.down :
+            case cc.KEY.h :
                     // this.jumper.jump();
                     this.status = Jumper.STATUS.FALL_DOWN;
                     this.jumper.move_down();
                     this.jumper.checkStand( this.stand_array[1] );
                     break;
-            case cc.KEY.left :
+            case cc.KEY.g :
                     this.jumper.move_left();
                     this.jumper.checkStand( this.stand_array[0]);
                     break;
-            case cc.KEY.right :
+            case cc.KEY.j :
                     this.jumper.move_right();
                     this.jumper.checkStand( this.stand_array[2] );
                     break;        
