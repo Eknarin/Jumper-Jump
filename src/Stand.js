@@ -3,13 +3,22 @@ var Stand = cc.Sprite.extend({
         this._super();
         this.initWithFile( 'images/cloud.png' );
         this.way_to_go = [130, 390, 650];
+        this.speed = 2;
     },
 
     update: function( ){
-    	this.setPositionY( this.getPositionY() + 30);
+        this.speedUp();
+    	this.setPositionY( this.getPositionY() + this.speed);
     	if(this.getPositionY() >= screenHeight){
         	this.randomPositionX();
         }
+    },
+
+    speedUp: function(){
+        this.schedule( function(){
+            this.speed += 0.000001;
+            // console.log( s.speed );
+        });
     },
 
     randomPositionX: function(){

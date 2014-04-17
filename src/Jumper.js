@@ -6,6 +6,7 @@ var Jumper = cc.Sprite.extend({
         this.g = -10;
         this.score = 0;
         this.is_add_score = false;
+        this.speed = 2;
     },
 
     move_down: function(){  
@@ -40,6 +41,7 @@ var Jumper = cc.Sprite.extend({
     },
     update: function() {
     	this.update_MovementY();
+        this.speedUp();
     },
 
     update_MovementY: function(){
@@ -51,13 +53,19 @@ var Jumper = cc.Sprite.extend({
 
     	if(this.status == Jumper.STATUS.STAND_ON_CLOUD){
             this.is_add_score = true;
-            this.setPositionY(this.getPositionY() + 30);
+            this.setPositionY(this.getPositionY() + this.speed);
     	}
         else if(this.status == Jumper.STATUS.FALL_DOWN){    
             this.is_add_score = false;  
             this.setPositionY( this.getPositionY() + this.g ) ;
         }
 
+    },
+
+    speedUp: function(){
+        this.schedule( function(){
+            this.speed += 0.000001;
+        });
     },
 
     get_score: function(){
