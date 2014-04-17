@@ -2,14 +2,11 @@ var Stand = cc.Sprite.extend({
     ctor: function() {
         this._super();
         this.initWithFile( 'images/cloud.png' );
-
-
         this.way_to_go = [130, 390, 650];
-
     },
 
-    update: function(){
-    	this.setPositionY( this.getPositionY() + 7);
+    update: function( ){
+    	this.setPositionY( this.getPositionY() + 30);
     	if(this.getPositionY() >= screenHeight){
         	this.randomPositionX();
         }

@@ -3,6 +3,8 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
 
+        this.game_speed = 1;
+
         this.jumper = new Jumper();  
         this.jumper.setPosition( new cc.Point( 390, 2 * Math.floor(( screenHeight / 3 )) ));
         this.addChild( this.jumper , 2 ); 
@@ -17,6 +19,10 @@ var GameLayer = cc.LayerColor.extend({
         var background = cc.Sprite.create('images/background.png');
         background.setPosition(400, 300);
         this.addChild(background , 0);
+
+        this.scoreLabel = cc.LabelTTF.create( this.jumper.get_score, 'Arial', 32 );
+        this.scoreLabel.setPosition( cc.p( 15 * 40, 14 * 40 + 15 ) );
+        this.addChild( this.scoreLabel );
 
         return true;
     },
@@ -36,25 +42,21 @@ var GameLayer = cc.LayerColor.extend({
             this.addChild( this.stand_array[i], 1);
             this.stand_array[i].setPositionY( -1 *i * Math.floor( (screenHeight / 3) ));
             this.stand_array[i].scheduleUpdate();
+            // this.schedule( this.stand_array[i].soar( this.game_speed ) ,1 );
         }
     },
 
     onKeyDown: function( e ) {
 
         switch ( e ){
-            case cc.KEY.h :
-                    // this.jumper.jump();
-                    this.status = Jumper.STATUS.FALL_DOWN;
-                    this.jumper.move_down();
-                    this.jumper.checkStand( this.stand_array[1] );
-                    break;
-            case cc.KEY.g :
+            case cc.KEY.a :
                     this.jumper.move_left();
-                    this.jumper.checkStand( this.stand_array[0]);
                     break;
-            case cc.KEY.j :
+            case cc.KEY.s :
+                    this.jumper.move_down();
+                    break;
+            case cc.KEY.d :
                     this.jumper.move_right();
-                    this.jumper.checkStand( this.stand_array[2] );
                     break;        
 
         }
@@ -68,11 +70,18 @@ var GameLayer = cc.LayerColor.extend({
         // }
     },
 
+    updateScoreLabel: function() {       
+        this.scoreLabel.setString( this.jumper.get_score() );
+    },
+
     update: function(){
         for(var i = 0; i < 3; i++){
             this.jumper.is_on_stand(this.stand_array[i]);
             this.jumper.scheduleUpdate();
         }
+
+        this.updateScoreLabel();
+       // console.log(this.jumper.get_score());
     }
 });
 
