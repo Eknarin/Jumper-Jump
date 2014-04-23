@@ -17,7 +17,6 @@ var Stand = cc.Sprite.extend({
     speedUp: function(){
         this.schedule( function(){
             this.speed += 0.000001;
-            // console.log( s.speed );
         });
     },
 

@@ -10,8 +10,8 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.jumper , 2 ); 
         this.jumper.scheduleUpdate();
 
-        this.stand_array = [ new Stand(), new Stand(), new Stand() ];
-        this.create_map();
+        this.stands = [ new Stand(), new Stand(), new Stand() ];
+        this.createMap();
 
         this.setKeyboardEnabled( true );
         this.scheduleUpdate();
@@ -27,22 +27,21 @@ var GameLayer = cc.LayerColor.extend({
         return true;
     },
 
-    create_map: function(){
+    createMap: function(){
         for(var i = 0; i < 3; i++){
 
             if(i == 0){
     
-                var color = this.stand_array[i].randomColor();
-                this.stand_array[i].runAction ( cc.TintTo.create( 0, color[0] , color[1] , color[2] ) );
-                this.stand_array[i].setPositionX( 390 );
+                var color = this.stands[i].randomColor();
+                this.stands[i].runAction ( cc.TintTo.create( 0, color[0] , color[1] , color[2] ) );
+                this.stands[i].setPositionX( 390 );
             }else{
-                this.stand_array[i].randomPositionX();
+                this.stands[i].randomPositionX();
             }
 
-            this.addChild( this.stand_array[i], 1);
-            this.stand_array[i].setPositionY( -1 *i * Math.floor( (screenHeight / 3) ));
-            this.stand_array[i].scheduleUpdate();
-            // this.schedule( this.stand_array[i].soar( this.game_speed ) ,1 );
+            this.addChild( this.stands[i], 1);
+            this.stands[i].setPositionY( -1 *i * Math.floor( (screenHeight / 3) ));
+            this.stands[i].scheduleUpdate();
         }
     },
 
@@ -50,13 +49,13 @@ var GameLayer = cc.LayerColor.extend({
 
         switch ( e ){
             case cc.KEY.a :
-                    this.jumper.move_left();
+                    this.jumper.moveLeft();
                     break;
             case cc.KEY.s :
-                    this.jumper.move_down();
+                    this.jumper.moveDown();
                     break;
             case cc.KEY.d :
-                    this.jumper.move_right();
+                    this.jumper.moveRight();
                     break;        
 
         }
@@ -71,17 +70,17 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     updateScoreLabel: function() {       
-        this.scoreLabel.setString( this.jumper.get_score() );
+        this.scoreLabel.setString( this.jumper.getScore() );
+        // this.scoreLabel.setString( '1000' );
     },
 
     update: function(){
         for(var i = 0; i < 3; i++){
-            this.jumper.is_on_stand(this.stand_array[i]);
+            this.jumper.isOnStand(this.stands[i]);
             this.jumper.scheduleUpdate();
         }
 
         this.updateScoreLabel();
-       // console.log(this.jumper.get_score());
     }
 });
 

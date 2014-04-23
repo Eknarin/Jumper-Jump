@@ -7,28 +7,50 @@ var Jumper = cc.Sprite.extend({
         this.score = 0;
         this.is_add_score = false;
         this.speed = 2;
+        this.started = false;
+
+        this.movingAction = this.blink();
+        this.runAction( this.movingAction );
     },
 
-    move_down: function(){  
+    blink: function() {
+        var animation = new cc.Animation.create();
+        animation.addSpriteFrameWithFile( 'images/b-duck.png' );
+        animation.addSpriteFrameWithFile( 'images/b-duck-blink.png' );
+        animation.setDelayPerUnit( 0.2 );
+        return cc.RepeatForever.create( cc.Animate.create( animation ) );
+    },
+
+    // start: function() {
+    //     this.started = true;
+    //     this.runAction( this.movingAction );
+    // },
+   
+    // stop: function() {
+    //     this.started = false;
+    //     this.stopAction( this.movingAction );
+    // },
+
+    moveDown: function(){  
         this.setPositionX(390);
         this.setPositionY(this.getPositionY() - 20);
         this.status = Jumper.STATUS.FALL_DOWN;
     },
 
-    move_left: function(){
+    moveLeft: function(){
          this.setPositionX(130);
          this.setPositionY(this.getPositionY() - 20);
          this.status = Jumper.STATUS.FALL_DOWN;
     },
 
-    move_right: function(){
+    moveRight: function(){
 
         this.setPositionX(650);
         this.setPositionY(this.getPositionY() - 20);
         this.status = Jumper.STATUS.FALL_DOWN;
     },
 
-    is_on_stand: function( stand ) {  
+    isOnStand: function( stand ) {  
         if((( this.getPositionY() - stand.getPositionY() ) <= 60) && 
             (( this.getPositionY() - stand.getPositionY() ) >= 30) && 
              (Math.abs(stand.getPositionX() - this.getPositionX()) <= 30 )){	 
@@ -40,20 +62,23 @@ var Jumper = cc.Sprite.extend({
     	}
     },
     update: function() {
-    	this.update_MovementY();
+    	this.updateMovementY();
         this.speedUp();
     },
 
-    update_MovementY: function(){
-    	if ( this.getPositionY >= screenHeight ){
-    		this.status = Jumper.STATUS.DEAD;
-            this.is_add_score = true; 
-            //Game End
-    	}
+    updateMovementY: function(){
+    	
 
     	if(this.status == Jumper.STATUS.STAND_ON_CLOUD){
             this.is_add_score = true;
             this.setPositionY(this.getPositionY() + this.speed);
+            
+            if(this.isDead()){
+                this.status = Jumper.STATUS.DEAD;
+                this.is_add_score = true; 
+                console.log("dead");
+                //Game End
+            }
     	}
         else if(this.status == Jumper.STATUS.FALL_DOWN){    
             this.is_add_score = false;  
@@ -62,13 +87,17 @@ var Jumper = cc.Sprite.extend({
 
     },
 
+    isDead: function(){
+        return this.getPositionY() >= screenHeight ;
+    },
+
     speedUp: function(){
         this.schedule( function(){
             this.speed += 0.000001;
         });
     },
 
-    get_score: function(){
+    getScore: function(){
         return this.score;
     }
 
