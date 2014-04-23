@@ -4,9 +4,10 @@ var GameLayer = cc.LayerColor.extend({
         this.setPosition( new cc.Point( 0, 0 ) );
 
         this.game_speed = 1;
+        this.startX = this.randomStartPositionX();
 
         this.jumper = new Jumper();  
-        this.jumper.setPosition( new cc.Point( 390, 2 * Math.floor(( screenHeight / 3 )) ));
+        this.jumper.setPosition( new cc.Point( this.startX, 2 * Math.floor(( screenHeight / 3 )) ));
         this.addChild( this.jumper , 2 ); 
         this.jumper.scheduleUpdate();
 
@@ -27,6 +28,13 @@ var GameLayer = cc.LayerColor.extend({
         return true;
     },
 
+    randomStartPositionX: function(){
+        var way_to_go = [130, 390, 650];
+        var index = Math.floor(Math.random() * 3);
+        return way_to_go[index];
+
+    },
+
     createMap: function(){
         for(var i = 0; i < 3; i++){
 
@@ -34,7 +42,7 @@ var GameLayer = cc.LayerColor.extend({
     
                 var color = this.stands[i].randomColor();
                 this.stands[i].runAction ( cc.TintTo.create( 0, color[0] , color[1] , color[2] ) );
-                this.stands[i].setPositionX( 390 );
+                this.stands[i].setPositionX( this.startX );
             }else{
                 this.stands[i].randomPositionX();
             }
