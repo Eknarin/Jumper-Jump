@@ -5,20 +5,19 @@ var GameLayer = cc.LayerColor.extend({
 
         this.game_speed = 1;
         this.startX = this.randomStartPositionX();
-
-        this.createJumper();
-
-        this.stands = [ new Stand(), new Stand(), new Stand() ];
-        this.createMap();
-
-        this.createBackground();        
-        this.createScoreLabel();
-        this.playSound();
-
-        this.setKeyboardEnabled( true );
+        this.createAll();
         this.scheduleUpdate();
 
         return true;
+    },
+
+    createAll: function(){
+        this.createJumper();
+        this.createMap();
+        this.createBackground();        
+        this.createScoreLabel();
+        this.playSound();
+        this.setKeyboardEnabled( true );
     },
 
     createJumper: function(){
@@ -42,10 +41,9 @@ var GameLayer = cc.LayerColor.extend({
 
     playSound: function(){
          cc.AudioEngine.getInstance().playMusic( 'effects/background_sound.mp3', true );
-         if(this.game_speed >= 2){
-            concole.log("yeah");
-             cc.AudioEngine.getInstance().playMusic( 'effects/background_speedUp_sound.mp3', true );
-         }
+         // if(this.game_speed >= 2){
+         //     cc.AudioEngine.getInstance().playMusic( 'effects/background_speedUp_sound.mp3', true );
+         // }
     },
 
     randomStartPositionX: function(){
@@ -56,6 +54,7 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     createMap: function(){
+        this.stands = [ new Stand(), new Stand(), new Stand() ];
         for(var i = 0; i < 3; i++){
 
             if(i == 0){
@@ -73,7 +72,6 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     onKeyDown: function( e ) {
-
         switch ( e ){
             case cc.KEY.a :
                     this.jumper.moveLeft();
