@@ -13,5 +13,7 @@ var g_resources = [
     //bgm
  
    //effect
-    {src: 'effects/background_sound.mp3' }
+    {src: 'effects/background_sound.mp3' },
+    {src: 'effects/background_speedUp_sound.mp3'},
+    {src: 'effects/jump_sound.mp3'}
 ];

@@ -35,19 +35,25 @@ var Jumper = cc.Sprite.extend({
         this.setPositionX(390);
         this.setPositionY(this.getPositionY() - 20);
         this.status = Jumper.STATUS.FALL_DOWN;
+        this.playJumpSound();
     },
 
     moveLeft: function(){
-         this.setPositionX(130);
-         this.setPositionY(this.getPositionY() - 20);
-         this.status = Jumper.STATUS.FALL_DOWN;
+        this.setPositionX(130);
+        this.setPositionY(this.getPositionY() - 20);
+        this.status = Jumper.STATUS.FALL_DOWN;
+        this.playJumpSound();
     },
 
-    moveRight: function(){
-
+    moveRight: function(){  
         this.setPositionX(650);
         this.setPositionY(this.getPositionY() - 20);
         this.status = Jumper.STATUS.FALL_DOWN;
+        this.playJumpSound();
+    },
+
+    playJumpSound: function(){
+        cc.AudioEngine.getInstance().playEffect( 'effects/jump_sound.mp3');
     },
 
     isOnStand: function( stand ) {  
