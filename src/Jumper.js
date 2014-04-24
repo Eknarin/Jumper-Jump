@@ -92,9 +92,15 @@ var Jumper = cc.Sprite.extend({
     },
 
     speedUp: function(){
-        this.schedule( function(){
-            this.speed += 0.000001;
-        });
+        if( this.speed >= 13){
+            this.schedule( function(){
+                this.speed += 0.0000001;
+            });
+        }else{
+            this.schedule( function(){
+                this.speed += 0.000001;
+            });
+         }   
     },
 
     getScore: function(){

@@ -25,6 +25,8 @@ var GameLayer = cc.LayerColor.extend({
         this.scoreLabel.setPosition( cc.p( 15 * 40, 14 * 40 + 15 ) );
         this.addChild( this.scoreLabel );
 
+        cc.AudioEngine.getInstance().playMusic( 'effects/background_sound.mp3', true );
+
         return true;
     },
 
@@ -39,7 +41,6 @@ var GameLayer = cc.LayerColor.extend({
         for(var i = 0; i < 3; i++){
 
             if(i == 0){
-    
                 var color = this.stands[i].randomColor();
                 this.stands[i].runAction ( cc.TintTo.create( 0, color[0] , color[1] , color[2] ) );
                 this.stands[i].setPositionX( this.startX );
@@ -79,7 +80,6 @@ var GameLayer = cc.LayerColor.extend({
 
     updateScoreLabel: function() {       
         this.scoreLabel.setString( this.jumper.getScore() );
-        // this.scoreLabel.setString( '1000' );
     },
 
     update: function(){

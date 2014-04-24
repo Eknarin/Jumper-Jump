@@ -12,5 +12,6 @@ var g_resources = [
  
     //bgm
  
-    //effect
+   //effect
+    {src: 'effects/background_sound.mp3' }
 ];
