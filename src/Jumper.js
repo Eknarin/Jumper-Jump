@@ -73,18 +73,17 @@ var Jumper = cc.Sprite.extend({
     },
 
     updateMovementY: function(){
-    	
+    	if(this.isDead()){
+            this.status = Jumper.STATUS.DEAD;
+            this.is_add_score = true; 
+            console.log("dead");
+                //Game End
+        }
 
     	if(this.status == Jumper.STATUS.STAND_ON_CLOUD){
             this.is_add_score = true;
             this.setPositionY(this.getPositionY() + this.speed);
             
-            if(this.isDead()){
-                this.status = Jumper.STATUS.DEAD;
-                this.is_add_score = true; 
-                console.log("dead");
-                //Game End
-            }
     	}
         else if(this.status == Jumper.STATUS.FALL_DOWN){    
             this.is_add_score = false;  
@@ -94,7 +93,9 @@ var Jumper = cc.Sprite.extend({
     },
 
     isDead: function(){
-        return this.getPositionY() >= screenHeight ;
+        if(this.getPositionY() >= screenHeight + 45 || this.getPositionY() <= -45)
+            return  true;
+        return false;
     },
 
     speedUp: function(){

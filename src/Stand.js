@@ -8,10 +8,18 @@ var Stand = cc.Sprite.extend({
 
     update: function( ){
         this.speedUp();
-    	this.setPositionY( this.getPositionY() + this.speed);
-    	if(this.getPositionY() >= screenHeight){
-        	this.randomPositionX();
+        this.soarUp();
+    },
+
+    soarUp: function( ){
+        this.setPositionY( this.getPositionY() + this.speed);
+        if(this.getPositionY() >= screenHeight){
+            this.randomPositionX();
         }
+    },
+
+    stopSoar: function(){
+        this.setPositionY( this.getPositionY());
     },
 
     speedUp: function(){
@@ -44,10 +52,10 @@ var Stand = cc.Sprite.extend({
 });
 
 var STAND_COLOR = [
-    // [ 200 , 255 ,100 ],
     [ 255, 255, 0],
     [ 255, 64, 64],
     [ 0, 255, 0]
+    // [ 200 , 255 ,100 ],
     // [ 0, 191, 255],
     // [ 255, 20, 147]
 ]

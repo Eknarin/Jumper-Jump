@@ -34,8 +34,9 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     createScoreLabel: function(){
-        this.scoreLabel = cc.LabelTTF.create( this.jumper.get_score, 'Arial', 32 );
-        this.scoreLabel.setPosition( cc.p( 15 * 40, 14 * 40 + 15 ) );
+        this.scoreLabel = cc.LabelTTF.create( this.jumper.get_score, 'Arial', 50 );
+        // this.scoreLabel.setPosition( cc.p( 15 * 40, 14 * 40 + 15 ) );
+        this.scoreLabel.setPosition( cc.p( screenWidth - 70, screenHeight - 50 ) );
         this.addChild( this.scoreLabel );
     },
 
@@ -103,9 +104,19 @@ var GameLayer = cc.LayerColor.extend({
             this.jumper.isOnStand(this.stands[i]);
             this.jumper.scheduleUpdate();
         }
-
+        if(this.jumper.status == Jumper.STATUS.DEAD ){
+            this.freezeScreen();
+        }
         this.updateScoreLabel();
-    }
+    },
+
+    freezeScreen: function(){
+        for(var i = 0; i < 3; i++){
+                this.stands[i].cleanup();
+            }
+        this.jumper.cleanup();
+         cc.AudioEngine.getInstance().stopMusic();
+    },
 });
 
 var StartScene = cc.Scene.extend({
