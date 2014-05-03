@@ -3,7 +3,8 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
 
-        this.changeSong = false;
+        this.isChangeSong = false;
+        this.isCreateEnd = false;
         this.startX = this.randomStartPositionX();
         this.createAll();
         this.scheduleUpdate();
@@ -15,7 +16,6 @@ var GameLayer = cc.LayerColor.extend({
         this.createJumper();
         this.createMap();
         this.createBackground();        
-        this.createScoreLabel();
         this.playSound();
         this.setKeyboardEnabled( true );
     },
@@ -38,26 +38,34 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild(background , 0);
     },
 
-    createScoreLabel: function(){
-        this.scoreLabel = cc.LabelTTF.create( this.jumper.get_score, 'Arial', 50 );
-        // this.scoreLabel.setPosition( cc.p( 15 * 40, 14 * 40 + 15 ) );
-        this.scoreLabel.setPosition( cc.p( screenWidth - 70, screenHeight - 50 ) );
-        this.addChild( this.scoreLabel, 3 );
-
-        this.black_scoreLabel = cc.LabelTTF.create( this.black_jumper.get_score, 'Arial', 50 );
-        this.black_scoreLabel.setPosition( cc.p( 70, screenHeight - 50 ) );
-        this.addChild( this.black_scoreLabel, 3 );
+    createDuckBackground: function(){
+        var winBackground = cc.Sprite.create('images/b-duck-winner.png');
+        winBackground.setPosition( 400, 300);
+        this.addChild(winBackground , 3);
     },
 
-    playSound: function(){
-         cc.AudioEngine.getInstance().playMusic( 'effects/background_sound.mp3', true );
+    createBlackDuckBackground: function(){
+        var winBackground = cc.Sprite.create('images/b-duck-black-winner.png');
+        winBackground.setPosition(400, 300);
+        this.addChild(winBackground , 3);
+    },
+
+    playSound: function(){      
+         if( this.black_jumper.status == BlackJumper.STATUS.DEAD ){
+            cc.AudioEngine.getInstance().playEffect( 'effects/champ_sound.mp3');
+         }
+         else if( this.jumper.status == Jumper.STATUS.DEAD ){
+            cc.AudioEngine.getInstance().playEffect( 'effects/laugh_sound.mp3' );           
+         }else{
+            cc.AudioEngine.getInstance().playMusic( 'effects/background_sound.mp3', true );
+         }
     },
 
     speedSong: function(){
-        if(this.changeSong == false){
+        if(this.isChangeSong == false){
             cc.AudioEngine.getInstance().stopMusic();
             cc.AudioEngine.getInstance().playMusic( 'effects/background_speedUp_sound.mp3', true );
-            this.changeSong = true;
+            this.isChangeSong = true;
         }  
     },
 
@@ -96,13 +104,13 @@ var GameLayer = cc.LayerColor.extend({
                     this.jumper.moveRight();
                     break;        
 
-            case cc.KEY.left :
+            case cc.KEY.j :
                     this.black_jumper.moveLeft();
                     break;
-            case cc.KEY.down :
+            case cc.KEY.k :
                     this.black_jumper.moveDown();
                     break;
-            case cc.KEY.right :
+            case cc.KEY.l :
                     this.black_jumper.moveRight();
                     break;         
         }
@@ -116,41 +124,50 @@ var GameLayer = cc.LayerColor.extend({
         // }
     },
 
-    updateScoreLabel: function() {       
-        this.scoreLabel.setString( this.jumper.getScore() );
-        this.black_scoreLabel.setString( this.black_jumper.getScore() );
-    },
-
     update: function(){
         for(var i = 0; i < 3; i++){
             this.jumper.isOnStand(this.stands[i]);
-            this.black_jumper.isOnStand(this.stands[i]);
-            
+            this.black_jumper.isOnStand(this.stands[i]);           
             this.jumper.scheduleUpdate();
             this.black_jumper.scheduleUpdate();
         }
-
-        if(this.jumper.status == Jumper.STATUS.DEAD || this.black_jumper.status == BlackJumper.STATUS.DEAD){
-            this.freezeScreen();
-        }else{
-            if(this.jumper.getSpeed() >= 7){
-                console.log("change!!");
+        this.checkDead();
+        if(this.jumper.getSpeed() >= 7){
                 this.speedSong();
+        }
+    },
+
+    checkDead: function(){
+        if( this.jumper.status == Jumper.STATUS.DEAD ){
+            this.freezeScreen();
+            if( this.isCreateEnd == false ){
+                this.createBlackDuckBackground();
+                this.playSound();
+                this.isCreateEnd = true;
             }
         }
-        
-
-        this.updateScoreLabel();
+        else if( this.black_jumper.status == BlackJumper.STATUS.DEAD ){
+            this.freezeScreen();
+            if( this.isCreateEnd == false ){
+                this.createDuckBackground();
+                this.playSound();
+                this.isCreateEnd = true;
+            }
+        }
     },
 
     freezeScreen: function(){
-        for(var i = 0; i < 3; i++){
-                this.stands[i].cleanup();
-            }
+        this.freezeStand();
         this.jumper.cleanup();
         this.black_jumper.cleanup();
         cc.AudioEngine.getInstance().stopMusic();
         this.setKeyboardEnabled( false );
+    },
+
+    freezeStand: function(){
+        for(var i = 0; i < 3; i++){
+            this.stands[i].cleanup();
+        }
     },
 });
 

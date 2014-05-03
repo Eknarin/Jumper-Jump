@@ -65,9 +65,14 @@ var BlackJumper = cc.Sprite.extend({
                 this.score += 1;
             }      
             this.status = BlackJumper.STATUS.STAND_ON_CLOUD;
-            this.setPositionX( this.getPositionX()+0.5 );
+            this.walk();
     	}
     },
+
+    walk: function(){
+        this.setPositionX( this.getPositionX()+0.5 );
+    },
+
     update: function() {
     	this.updateMovementY();
         this.speedUp();
