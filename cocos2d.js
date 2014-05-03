@@ -15,6 +15,7 @@
             'src/resource.js',
             'src/GameLayer.js',
             'src/Jumper.js', 
+            'src/BlackJumper.js',
             'src/Stand.js',//add your own files in order here
         ]
     };

@@ -25,6 +25,11 @@ var GameLayer = cc.LayerColor.extend({
         this.jumper.setPosition( new cc.Point( this.startX, 2 * Math.floor(( screenHeight / 3 )) ));
         this.addChild( this.jumper , 2 ); 
         this.jumper.scheduleUpdate();
+
+        this.black_jumper = new BlackJumper();
+        this.black_jumper.setPosition( new cc.Point( this.startX, 2 * Math.floor(( screenHeight / 3 )) ));
+        this.addChild( this.black_jumper , 2 ); 
+        this.black_jumper.scheduleUpdate();
     },
 
     createBackground: function(){
@@ -38,6 +43,10 @@ var GameLayer = cc.LayerColor.extend({
         // this.scoreLabel.setPosition( cc.p( 15 * 40, 14 * 40 + 15 ) );
         this.scoreLabel.setPosition( cc.p( screenWidth - 70, screenHeight - 50 ) );
         this.addChild( this.scoreLabel, 3 );
+
+        this.black_scoreLabel = cc.LabelTTF.create( this.black_jumper.get_score, 'Arial', 50 );
+        this.black_scoreLabel.setPosition( cc.p( 70, screenHeight - 50 ) );
+        this.addChild( this.black_scoreLabel, 3 );
     },
 
     playSound: function(){
@@ -87,6 +96,15 @@ var GameLayer = cc.LayerColor.extend({
                     this.jumper.moveRight();
                     break;        
 
+            case cc.KEY.left :
+                    this.black_jumper.moveLeft();
+                    break;
+            case cc.KEY.down :
+                    this.black_jumper.moveDown();
+                    break;
+            case cc.KEY.right :
+                    this.black_jumper.moveRight();
+                    break;         
         }
 
         // if ( this.state == GameLayer.STATES.FRONT ) {
@@ -100,15 +118,19 @@ var GameLayer = cc.LayerColor.extend({
 
     updateScoreLabel: function() {       
         this.scoreLabel.setString( this.jumper.getScore() );
+        this.black_scoreLabel.setString( this.black_jumper.getScore() );
     },
 
     update: function(){
         for(var i = 0; i < 3; i++){
             this.jumper.isOnStand(this.stands[i]);
+            this.black_jumper.isOnStand(this.stands[i]);
+            
             this.jumper.scheduleUpdate();
+            this.black_jumper.scheduleUpdate();
         }
 
-        if(this.jumper.status == Jumper.STATUS.DEAD ){
+        if(this.jumper.status == Jumper.STATUS.DEAD || this.black_jumper.status == BlackJumper.STATUS.DEAD){
             this.freezeScreen();
         }else{
             if(this.jumper.getSpeed() >= 7){
@@ -126,6 +148,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.stands[i].cleanup();
             }
         this.jumper.cleanup();
+        this.black_jumper.cleanup();
         cc.AudioEngine.getInstance().stopMusic();
         this.setKeyboardEnabled( false );
     },

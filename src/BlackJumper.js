@@ -1,8 +1,8 @@
-var Jumper = cc.Sprite.extend({
+var BlackJumper = cc.Sprite.extend({
     ctor: function() {
         this._super();
-        this.initWithFile( 'images/b-duck.png' );
-        this.status = Jumper.STATUS.FALL_DOWN;
+        this.initWithFile( 'images/b-duck-black.png' );
+        this.status = BlackJumper.STATUS.FALL_DOWN;
         this.g = -10;
         this.score = 0;
         this.is_add_score = false;
@@ -15,8 +15,8 @@ var Jumper = cc.Sprite.extend({
 
     blink: function() {
         var animation = new cc.Animation.create();
-        animation.addSpriteFrameWithFile( 'images/b-duck.png' );
-        animation.addSpriteFrameWithFile( 'images/b-duck-blink.png' );
+        animation.addSpriteFrameWithFile( 'images/b-duck-black.png' );
+        animation.addSpriteFrameWithFile( 'images/b-duck-black-blink.png' );
         animation.setDelayPerUnit( 0.2 );
         return cc.RepeatForever.create( cc.Animate.create( animation ) );
     },
@@ -34,21 +34,21 @@ var Jumper = cc.Sprite.extend({
     moveDown: function(){  
         this.setPositionX(390);
         this.setPositionY(this.getPositionY() - 20);
-        this.status = Jumper.STATUS.FALL_DOWN;
+        this.status = BlackJumper.STATUS.FALL_DOWN;
         this.playJumpSound();
     },
 
     moveLeft: function(){
         this.setPositionX(130);
         this.setPositionY(this.getPositionY() - 20);
-        this.status = Jumper.STATUS.FALL_DOWN;
+        this.status = BlackJumper.STATUS.FALL_DOWN;
         this.playJumpSound();
     },
 
     moveRight: function(){  
         this.setPositionX(650);
         this.setPositionY(this.getPositionY() - 20);
-        this.status = Jumper.STATUS.FALL_DOWN;
+        this.status = BlackJumper.STATUS.FALL_DOWN;
         this.playJumpSound();
     },
 
@@ -64,8 +64,8 @@ var Jumper = cc.Sprite.extend({
            if( this.is_add_score == false ){
                 this.score += 1;
             }      
-            this.status = Jumper.STATUS.STAND_ON_CLOUD;
-            this.setPositionX( this.getPositionX()-0.5 );
+            this.status = BlackJumper.STATUS.STAND_ON_CLOUD;
+            this.setPositionX( this.getPositionX()+0.5 );
     	}
     },
     update: function() {
@@ -75,18 +75,18 @@ var Jumper = cc.Sprite.extend({
 
     updateMovementY: function(){
     	if(this.isDead()){
-            this.status = Jumper.STATUS.DEAD;
+            this.status = BlackJumper.STATUS.DEAD;
             this.is_add_score = true; 
             console.log("dead");
                 //Game End
         }
 
-    	if(this.status == Jumper.STATUS.STAND_ON_CLOUD){
+    	if(this.status == BlackJumper.STATUS.STAND_ON_CLOUD){
             this.is_add_score = true;
             this.setPositionY(this.getPositionY() + this.speed);
             
     	}
-        else if(this.status == Jumper.STATUS.FALL_DOWN){    
+        else if(this.status == BlackJumper.STATUS.FALL_DOWN){    
             this.is_add_score = false;  
             this.setPositionY( this.getPositionY() + this.g ) ;
         }
@@ -126,7 +126,7 @@ var Jumper = cc.Sprite.extend({
 });
 
 
-Jumper.STATUS = {
+BlackJumper.STATUS = {
 	FALL_DOWN : 0,
     STAND_ON_CLOUD : 1,
     DEAD : 2

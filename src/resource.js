@@ -1,7 +1,7 @@
 var g_resources = [
     //image
     {src: 'images/b-duck.png' },
-     {src: 'images/b-duck-blink.png' },
+    {src: 'images/b-duck-blink.png' },
     {src: 'images/cloud.png'},
     // {src: 'images/dot.png'}
     //plist
