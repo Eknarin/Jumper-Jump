@@ -3,7 +3,7 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
 
-        this.game_speed = 1;
+        this.changeSong = false;
         this.startX = this.randomStartPositionX();
         this.createAll();
         this.scheduleUpdate();
@@ -37,14 +37,19 @@ var GameLayer = cc.LayerColor.extend({
         this.scoreLabel = cc.LabelTTF.create( this.jumper.get_score, 'Arial', 50 );
         // this.scoreLabel.setPosition( cc.p( 15 * 40, 14 * 40 + 15 ) );
         this.scoreLabel.setPosition( cc.p( screenWidth - 70, screenHeight - 50 ) );
-        this.addChild( this.scoreLabel );
+        this.addChild( this.scoreLabel, 3 );
     },
 
     playSound: function(){
          cc.AudioEngine.getInstance().playMusic( 'effects/background_sound.mp3', true );
-         // if(this.game_speed >= 2){
-         //     cc.AudioEngine.getInstance().playMusic( 'effects/background_speedUp_sound.mp3', true );
-         // }
+    },
+
+    speedSong: function(){
+        if(this.changeSong == false){
+            cc.AudioEngine.getInstance().stopMusic();
+            cc.AudioEngine.getInstance().playMusic( 'effects/background_speedUp_sound.mp3', true );
+            this.changeSong = true;
+        }  
     },
 
     randomStartPositionX: function(){
@@ -57,7 +62,6 @@ var GameLayer = cc.LayerColor.extend({
     createMap: function(){
         this.stands = [ new Stand(), new Stand(), new Stand() ];
         for(var i = 0; i < 3; i++){
-
             if(i == 0){
                 var color = this.stands[i].randomColor();
                 this.stands[i].runAction ( cc.TintTo.create( 0, color[0] , color[1] , color[2] ) );
@@ -65,7 +69,6 @@ var GameLayer = cc.LayerColor.extend({
             }else{
                 this.stands[i].randomPositionX();
             }
-
             this.addChild( this.stands[i], 1);
             this.stands[i].setPositionY( -1 *i * Math.floor( (screenHeight / 3) ));
             this.stands[i].scheduleUpdate();
@@ -104,9 +107,17 @@ var GameLayer = cc.LayerColor.extend({
             this.jumper.isOnStand(this.stands[i]);
             this.jumper.scheduleUpdate();
         }
+
         if(this.jumper.status == Jumper.STATUS.DEAD ){
             this.freezeScreen();
+        }else{
+            if(this.jumper.getSpeed() >= 7){
+                console.log("change!!");
+                this.speedSong();
+            }
         }
+        
+
         this.updateScoreLabel();
     },
 
@@ -115,7 +126,8 @@ var GameLayer = cc.LayerColor.extend({
                 this.stands[i].cleanup();
             }
         this.jumper.cleanup();
-         cc.AudioEngine.getInstance().stopMusic();
+        cc.AudioEngine.getInstance().stopMusic();
+        this.setKeyboardEnabled( false );
     },
 });
 

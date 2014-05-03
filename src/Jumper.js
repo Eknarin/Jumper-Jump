@@ -116,6 +116,10 @@ var Jumper = cc.Sprite.extend({
 
     getScore: function(){
         return this.score;
+    },
+
+    getSpeed: function(){
+        return this.speed;
     }
 
 });
