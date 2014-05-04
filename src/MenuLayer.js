@@ -15,6 +15,8 @@ var MenuLayer = cc.Layer.extend({
         var bg = cc.Sprite.create("images/startscene.png");
         bg.setPosition( center );
         this.addChild( bg );
+
+        cc.AudioEngine.getInstance().playMusic( 'effects/start_background_sound.mp3', true );
 	},
 
 	onTouchBegan:function( touch, event ) {
