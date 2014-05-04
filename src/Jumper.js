@@ -1,5 +1,5 @@
 var Jumper = cc.Sprite.extend({
-    ctor: function() {
+    ctor: function( string ) {
         this._super();
         this.initWithFile( 'images/b-duck.png' );
         this.status = Jumper.STATUS.FALL_DOWN;
@@ -8,6 +8,12 @@ var Jumper = cc.Sprite.extend({
         this.is_add_score = false;
         this.speed = 2;
         this.started = false;
+        this.can_walk = false;
+        if(string == "single"){
+            this.can_walk = false;
+        }else{
+            this.can_walk = true;
+        }
 
         this.movingAction = this.blink();
         this.runAction( this.movingAction );
@@ -70,7 +76,9 @@ var Jumper = cc.Sprite.extend({
     },
 
     walk: function(){
-        this.setPositionX( this.getPositionX()-0.5 );
+        if(this.can_walk){
+            this.setPositionX( this.getPositionX()-0.5 );
+        }
     },
 
     update: function() {

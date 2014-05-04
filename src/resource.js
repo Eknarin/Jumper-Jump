@@ -7,6 +7,13 @@ var g_resources = [
     {src: 'images/cloud.png'},
     {src: 'images/b-duck-winner.png'},
     {src: 'images/b-duck-black-winner.png'},
+    {src: 'images/single.png'},
+    {src: 'images/vs.png'},
+    {src: 'images/selectMode.png'},  
+    {src: 'images/startscene.png'},
+    {src: 'images/background.png'},
+
+
     //plist
  
     //fnt

@@ -1,4 +1,4 @@
-var GameLayer = cc.LayerColor.extend({
+var GameLayerSinglePlayer = cc.LayerColor.extend({
     init: function() {
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
@@ -15,21 +15,23 @@ var GameLayer = cc.LayerColor.extend({
     createAll: function(){
         this.createJumper();
         this.createMap();
-        this.createBackground();        
+        this.createBackground(); 
+        this.createScoreLabel();       
         this.playSound();
         this.setKeyboardEnabled( true );
     },
 
+    createScoreLabel: function(){
+         this.scoreLabel = cc.LabelTTF.create( this.jumper.getScore(), 'Arial', 50 );
+         this.scoreLabel.setPosition( cc.p( screenWidth - 70, screenHeight - 50 ) );
+         this.addChild( this.scoreLabel, 3 );
+    },
+
     createJumper: function(){
-        this.jumper = new Jumper();  
+        this.jumper = new Jumper( "single" );  
         this.jumper.setPosition( new cc.Point( this.startX, 2 * Math.floor(( screenHeight / 3 )) ));
         this.addChild( this.jumper , 2 ); 
         this.jumper.scheduleUpdate();
-
-        this.black_jumper = new BlackJumper();
-        this.black_jumper.setPosition( new cc.Point( this.startX, 2 * Math.floor(( screenHeight / 3 )) ));
-        this.addChild( this.black_jumper , 2 ); 
-        this.black_jumper.scheduleUpdate();
     },
 
     createBackground: function(){
@@ -38,27 +40,19 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild(background , 0);
     },
 
-    createDuckBackground: function(){
-        var winBackground = cc.Sprite.create('images/b-duck-winner.png');
-        winBackground.setPosition( 400, 300);
-        this.addChild(winBackground , 3);
-    },
-
-    createBlackDuckBackground: function(){
-        var winBackground = cc.Sprite.create('images/b-duck-black-winner.png');
-        winBackground.setPosition(400, 300);
-        this.addChild(winBackground , 3);
-    },
+    // createDuckBackground: function(){
+    //     var winBackground = cc.Sprite.create('images/b-duck-winner.png');
+    //     winBackground.setPosition( 400, 300);
+    //     this.addChild(winBackground , 3);
+    // },
 
     playSound: function(){      
-         if( this.black_jumper.status == BlackJumper.STATUS.DEAD ){
-            cc.AudioEngine.getInstance().playEffect( 'effects/champ_sound.mp3');
-         }
-         else if( this.jumper.status == Jumper.STATUS.DEAD ){
-            cc.AudioEngine.getInstance().playEffect( 'effects/laugh_sound.mp3' );           
-         }else{
+         
+        if( this.jumper.status == Jumper.STATUS.DEAD ){
+            // cc.AudioEngine.getInstance().playEffect( 'effects/laugh_sound.mp3' );           
+        }else{
             cc.AudioEngine.getInstance().playMusic( 'effects/background_sound.mp3', true );
-         }
+        }
     },
 
     speedSong: function(){
@@ -102,17 +96,7 @@ var GameLayer = cc.LayerColor.extend({
                     break;
             case cc.KEY.d :
                     this.jumper.moveRight();
-                    break;        
-
-            case cc.KEY.j :
-                    this.black_jumper.moveLeft();
-                    break;
-            case cc.KEY.k :
-                    this.black_jumper.moveDown();
-                    break;
-            case cc.KEY.l :
-                    this.black_jumper.moveRight();
-                    break;         
+                    break;            
         }
 
         // if ( this.state == GameLayer.STATES.FRONT ) {
@@ -127,30 +111,25 @@ var GameLayer = cc.LayerColor.extend({
     update: function(){
         for(var i = 0; i < 3; i++){
             this.jumper.isOnStand(this.stands[i]);
-            this.black_jumper.isOnStand(this.stands[i]);           
             this.jumper.scheduleUpdate();
-            this.black_jumper.scheduleUpdate();
         }
         this.checkDead();
         if(this.jumper.getSpeed() >= 7){
                 this.speedSong();
         }
+
+        this.updateScoreLabel();
+    },
+
+    updateScoreLabel: function(){
+        this.scoreLabel.setString(this.jumper.getScore());
     },
 
     checkDead: function(){
         if( this.jumper.status == Jumper.STATUS.DEAD ){
             this.freezeScreen();
             if( this.isCreateEnd == false ){
-                this.createBlackDuckBackground();
-                this.playSound();
-                this.isCreateEnd = true;
-            }
-        }
-        else if( this.black_jumper.status == BlackJumper.STATUS.DEAD ){
-            this.freezeScreen();
-            if( this.isCreateEnd == false ){
-                this.createDuckBackground();
-                this.playSound();
+                // this.playSound();
                 this.isCreateEnd = true;
             }
         }
@@ -159,7 +138,6 @@ var GameLayer = cc.LayerColor.extend({
     freezeScreen: function(){
         this.freezeStand();
         this.jumper.cleanup();
-        this.black_jumper.cleanup();
         cc.AudioEngine.getInstance().stopMusic();
         this.setKeyboardEnabled( false );
     },
@@ -171,10 +149,10 @@ var GameLayer = cc.LayerColor.extend({
     },
 });
 
-var StartScene = cc.Scene.extend({
+var SingleScene = cc.Scene.extend({
     onEnter: function() {
         this._super();
-        var layer = new GameLayer();
+        var layer = new GameLayerSinglePlayer();
         layer.init();
         this.addChild( layer );
     }

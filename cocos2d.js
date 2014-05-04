@@ -13,11 +13,13 @@
         SingleEngineFile:'lib/Cocos2d-html5-v2.2.2.min.js',
         appFiles:[
             'src/resource.js',
-            'src/GameLayer.js',
+            'src/GameLayerSinglePlayer.js',
+            'src/GameLayerMultiPlayer.js',
             'src/Jumper.js', 
             'src/BlackJumper.js',
             'src/Stand.js',
-            'src/MenuLayer.js',//add your own files in order here
+            'src/MenuLayer.js',
+            'src/SelectLayer.js',//add your own files in order here
         ]
     };
 
