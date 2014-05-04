@@ -29,5 +29,7 @@ var g_resources = [
     {src: 'effects/champ_sound.mp3'},
     {src: 'effects/laugh_sound.mp3'},
     {src: 'effects/never_walk_alone.mp3'},
-    {src: 'effects/start_background_sound.mp3'}
+    {src: 'effects/start_background_sound.mp3'},
+    {src: 'effects/select.mp3.mp3'}
+    
 ];

@@ -16,7 +16,11 @@ var MenuLayer = cc.Layer.extend({
         bg.setPosition( center );
         this.addChild( bg );
 
-        cc.AudioEngine.getInstance().playMusic( 'effects/start_background_sound.mp3', true );
+        this.playSound();
+	},
+
+	playSound: function(){
+		cc.AudioEngine.getInstance().playMusic( 'effects/start_background_sound.mp3', true );
 	},
 
 	onTouchBegan:function( touch, event ) {

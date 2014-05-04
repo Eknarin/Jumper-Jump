@@ -22,7 +22,15 @@ var SelectLayer = cc.Layer.extend({
 
         this.setMouseEnabled( true );
 
+        this.is_single_play = false;
+        this.is_vs_play = false;
+
 	},
+
+	playSound: function(){
+		cc.AudioEngine.getInstance().playEffect( 'effects/select.mp3');
+	},
+
 	onMouseMoved: function(event){
 		var location = event.getLocation();
 		var go_single= this.single.getBoundingBoxToWorld();
@@ -30,14 +38,25 @@ var SelectLayer = cc.Layer.extend({
 
 		if(cc.rectContainsPoint(go_single,location)){
 			this.single.setOpacity(1000);
+			if(!this.is_single_play){
+				this.playSound();
+				this.is_single_play = true;	
+			}
+			
 		}else{
 			this.single.setOpacity(80);
+			this.is_single_play = false;
 		}
 
 		if(cc.rectContainsPoint(go_vs,location)){
 			this.vs.setOpacity(1000);
+			if(!this.is_vs_play){
+				this.playSound();
+				this.is_vs_play = true;	
+			}
 		}else{
 			this.vs.setOpacity(80);
+			this.is_vs_play = false;
 		}
 
 	},
