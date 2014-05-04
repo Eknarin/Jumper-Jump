@@ -26,11 +26,11 @@ var cocos2dApp = cc.Application.extend({
         director.setAnimationInterval( 1.0 / this.config[ 'frameRate' ] );
 
         cc.LoaderScene.preload(g_resources, function () {
-            director.replaceScene( new this.startScene() );
+            director.replaceScene( cc.TransitionFade.create(1.5, new this.startScene) );
         }, this );
 
         return true;
     }
 });
 
-var myApp = new cocos2dApp( StartScene );
+var myApp = new cocos2dApp( MenuScene );
