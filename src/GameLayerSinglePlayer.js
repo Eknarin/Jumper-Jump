@@ -40,16 +40,23 @@ var GameLayerSinglePlayer = cc.LayerColor.extend({
         this.addChild(background , 0);
     },
 
-    // createDuckBackground: function(){
-    //     var winBackground = cc.Sprite.create('images/b-duck-winner.png');
-    //     winBackground.setPosition( 400, 300);
-    //     this.addChild(winBackground , 3);
-    // },
+    createGameOver: function(){
+        var winBackground = cc.Sprite.create('images/gameOver.png');
+        winBackground.setPosition( 400, 300);
+        this.addChild(winBackground , 3);
+
+        this.scoreLabelEnd = cc.LabelTTF.create( this.jumper.getScore(), 'Arial', 34 );
+        this.scoreLabelEnd.setString(this.jumper.getScore());
+        this.scoreLabelEnd.setPosition( cc.p( 400, 330 ) );
+        this.addChild( this.scoreLabelEnd, 3);
+
+
+    },
 
     playSound: function(){      
          
         if( this.jumper.status == Jumper.STATUS.DEAD ){
-            // cc.AudioEngine.getInstance().playEffect( 'effects/laugh_sound.mp3' );           
+            cc.AudioEngine.getInstance().playEffect( 'effects/never_walk_alone.mp3' );           
         }else{
             cc.AudioEngine.getInstance().playMusic( 'effects/background_sound.mp3', true );
         }
@@ -129,7 +136,8 @@ var GameLayerSinglePlayer = cc.LayerColor.extend({
         if( this.jumper.status == Jumper.STATUS.DEAD ){
             this.freezeScreen();
             if( this.isCreateEnd == false ){
-                // this.playSound();
+                this.createGameOver();
+                this.playSound();
                 this.isCreateEnd = true;
             }
         }

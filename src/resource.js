@@ -12,7 +12,7 @@ var g_resources = [
     {src: 'images/selectMode.png'},  
     {src: 'images/startscene.png'},
     {src: 'images/background.png'},
-
+    {src: 'images/gameOver.png'},
 
     //plist
  
@@ -27,5 +27,6 @@ var g_resources = [
     {src: 'effects/background_speedUp_sound.mp3'},
     {src: 'effects/jump_sound.mp3'},
     {src: 'effects/champ_sound.mp3'},
-    {src: 'effects/laugh_sound.mp3'}
+    {src: 'effects/laugh_sound.mp3'},
+    {src: 'effects/never_walk_alone.mp3'}
 ];
