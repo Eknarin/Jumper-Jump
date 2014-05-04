@@ -27,16 +27,6 @@ var Jumper = cc.Sprite.extend({
         return cc.RepeatForever.create( cc.Animate.create( animation ) );
     },
 
-    // start: function() {
-    //     this.started = true;
-    //     this.runAction( this.movingAction );
-    // },
-   
-    // stop: function() {
-    //     this.started = false;
-    //     this.stopAction( this.movingAction );
-    // },
-
     moveDown: function(){  
         this.setPositionX(390);
         this.setPositionY(this.getPositionY() - 20);
