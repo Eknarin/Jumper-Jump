@@ -3,6 +3,8 @@ var GameLayerSinglePlayer = cc.LayerColor.extend({
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
 
+        this.setTouchEnabled(true);
+        this.setTouchMode(1);
         this.isChangeSong = false;
         this.isCreateEnd = false;
         this.startX = this.randomStartPositionX();
@@ -56,7 +58,7 @@ var GameLayerSinglePlayer = cc.LayerColor.extend({
     playSound: function(){      
          
         if( this.jumper.status == Jumper.STATUS.DEAD ){
-            cc.AudioEngine.getInstance().playEffect( 'effects/never_walk_alone.mp3' );           
+            cc.AudioEngine.getInstance().playMusic( 'effects/never_walk_alone.mp3' );           
         }else{
             cc.AudioEngine.getInstance().playMusic( 'effects/background_sound.mp3', true );
         }
@@ -105,14 +107,6 @@ var GameLayerSinglePlayer = cc.LayerColor.extend({
                     this.jumper.moveRight();
                     break;            
         }
-
-        // if ( this.state == GameLayer.STATES.FRONT ) {
-        //     this.startGame();
-        //     this.state = GameLayer.STATES.STARTED;
-        // }
-        // else if ( this.state == GameLayer.STATES.STARTED ) {
-            // this.jumper.jump();
-        // }
     },
 
     update: function(){
@@ -146,7 +140,6 @@ var GameLayerSinglePlayer = cc.LayerColor.extend({
     freezeScreen: function(){
         this.freezeStand();
         this.jumper.cleanup();
-        cc.AudioEngine.getInstance().stopMusic();
         this.setKeyboardEnabled( false );
     },
 
@@ -155,6 +148,14 @@ var GameLayerSinglePlayer = cc.LayerColor.extend({
             this.stands[i].cleanup();
         }
     },
+
+    onTouchBegan:function( touch, event ) {
+        if(this.jumper.status == Jumper.STATUS.DEAD){
+            var director = cc.Director.getInstance();
+            cc.AudioEngine.getInstance().playMusic( 'effects/start_background_sound.mp3', true );
+            director.replaceScene(cc.TransitionFade.create(1.5, new SelectScene()));
+        }
+    }
 });
 
 var SingleScene = cc.Scene.extend({
