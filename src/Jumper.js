@@ -6,7 +6,7 @@ var Jumper = cc.Sprite.extend({
         this.g = -10;
         this.score = 0;
         this.is_add_score = false;
-        this.speed = 2;
+        this.speed = 3;
         this.started = false;
         this.can_walk = false;
         if(string == "single"){
@@ -113,7 +113,7 @@ var Jumper = cc.Sprite.extend({
             }
         }else{
             this.schedule( function(){
-                this.speed += 0.000001;
+                this.speed += 0.000002;
             });
         }
     },

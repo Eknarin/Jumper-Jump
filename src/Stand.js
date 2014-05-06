@@ -3,7 +3,7 @@ var Stand = cc.Sprite.extend({
         this._super();
         this.initWithFile( 'images/cloud.png' );
         this.way_to_go = [130, 390, 650];
-        this.speed = 2;
+        this.speed = 3;
     },
 
     update: function( ){
@@ -33,7 +33,7 @@ var Stand = cc.Sprite.extend({
             }
         }else{
             this.schedule( function(){
-                this.speed += 0.000001;
+                this.speed += 0.000002;
             });
         }   
     },
