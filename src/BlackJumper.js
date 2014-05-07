@@ -1,3 +1,4 @@
+//another player called Black Jumper
 var BlackJumper = cc.Sprite.extend({
     ctor: function() {
         this._super();

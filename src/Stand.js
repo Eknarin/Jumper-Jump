@@ -1,3 +1,4 @@
+//cloud class
 var Stand = cc.Sprite.extend({
     ctor: function() {
         this._super();
@@ -41,7 +42,8 @@ var Stand = cc.Sprite.extend({
     randomPositionX: function(){
     	var index = Math.floor(Math.random() * 3);
         var colorArr = this.randomColor();
-        this.runAction ( cc.TintTo.create( 0, colorArr[0] , colorArr[1] , colorArr[2] ) );
+        if( this.tintAction ) this.stopAction( this.tintAction );
+            this.tintAction = this.runAction ( cc.TintTo.create( 0, colorArr[0] , colorArr[1] , colorArr[2] ) );
     	this.setPosition( cc.p( this.way_to_go[index] , -30) );
     },
 

@@ -1,3 +1,4 @@
+//start(cover) page
 var MenuLayer = cc.Layer.extend({
 	ctor: function(){
 		this._super();
@@ -5,18 +6,24 @@ var MenuLayer = cc.Layer.extend({
 
 	init: function(){
 		this._super();
+		this.createAll();  
+	},
+
+	createAll: function(){
+		this.createBackground();
+		this.playSound();
+		this.setTouch();
+	},
+
+	setTouch: function(){
 		this.setTouchEnabled(true);
         this.setTouchMode(1);
+	},
 
-        var director = cc.Director.getInstance();
-        var winsize = director.getWinSize();
-        var center = cc.p( 400, 300 );
-       
-        var bg = cc.Sprite.create("images/startscene.png");
-        bg.setPosition( center );
-        this.addChild( bg );
-
-        this.playSound();
+	createBackground: function(){
+		var background = cc.Sprite.create("images/startscene.png");
+        background.setPosition( cc.p( 400, 300 ) );
+        this.addChild( background );
 	},
 
 	playSound: function(){

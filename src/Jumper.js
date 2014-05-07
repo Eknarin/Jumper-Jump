@@ -8,15 +8,18 @@ var Jumper = cc.Sprite.extend({
         this.is_add_score = false;
         this.speed = 3;
         this.started = false;
-        this.can_walk = false;
+        this.isCanWalk(string);
+
+        this.movingAction = this.blink();
+        this.runAction( this.movingAction );
+    },
+
+    isCanWalk: function(string){
         if(string == "single"){
             this.can_walk = false;
         }else{
             this.can_walk = true;
         }
-
-        this.movingAction = this.blink();
-        this.runAction( this.movingAction );
     },
 
     blink: function() {
